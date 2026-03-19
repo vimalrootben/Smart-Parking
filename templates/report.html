@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports — Smart Parking Analytics</title>
+  <meta name="description" content="Historical parking session reports with date, duration, and floor details." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+  <!-- ═══ Top Banner ═══ -->
+  <header class="top-banner" id="top-banner">
+    <h1>Smart Parking Analytics System</h1>
+    <nav class="banner-nav">
+      <a href="/user" class="banner-link" id="nav-user">User</a>
+      <a href="/admin" class="banner-link" id="nav-admin">Admin</a>
+      <a href="/report" class="banner-link active" id="nav-report">Reports</a>
+    </nav>
+  </header>
+
+  <div class="hero hero--small" id="hero">
+    <h1>Session <span class="accent">Reports</span></h1>
+    <p class="hero-sub">Historical parking sessions with date, duration &amp; floor details</p>
+  </div>
+
+  <main class="container" id="main-content">
+
+    <!-- Summary row -->
+    <section class="metrics-row metrics-row--compact" id="report-metrics">
+      <div class="metric-card" id="r-total-sessions">
+        <span class="metric-label">Total Sessions</span>
+        <span class="metric-value" id="r-metric-total">–</span>
+      </div>
+      <div class="metric-card" id="r-avg-duration">
+        <span class="metric-label">Avg Duration</span>
+        <span class="metric-value" id="r-metric-avg-dur">–</span>
+        <span class="metric-sub">minutes</span>
+      </div>
+    </section>
+
+    <!-- Sessions table -->
+    <section class="report-section" id="report-table-section">
+      <div class="table-wrapper">
+        <table class="report-table" id="report-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Slot</th>
+              <th>Floor</th>
+              <th>Entry Time</th>
+              <th>Exit Time</th>
+              <th>Duration (min)</th>
+            </tr>
+          </thead>
+          <tbody id="report-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" id="footer">
+    <p>SmartPark<span class="accent">AI</span> &copy; 2026 — Powered by Flask &amp; Scikit-learn</p>
+  </footer>
+
+  <script>
+    async function loadReport() {
+      try {
+        const res = await fetch("/api/sessions?limit=200");
+        const sessions = await res.json();
+
+        document.getElementById("r-metric-total").textContent = sessions.length;
+
+        const closed = sessions.filter(s => s.duration_min != null);
+        const avg = closed.length
+          ? (closed.reduce((a, s) => a + s.duration_min, 0) / closed.length).toFixed(1)
+          : "–";
+        document.getElementById("r-metric-avg-dur").textContent = avg;
+
+        const tbody = document.getElementById("report-tbody");
+        tbody.innerHTML = "";
+        sessions.forEach((s, i) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${s.id}</td>
+            <td>Slot ${s.slot_id}</td>
+            <td>Floor ${s.floor}</td>
+            <td>${formatDT(s.entry_time)}</td>
+            <td>${s.exit_time ? formatDT(s.exit_time) : '<span class="badge badge-active">Active</span>'}</td>
+            <td>${s.duration_min != null ? s.duration_min : "–"}</td>`;
+          tr.style.animationDelay = `${i * 0.015}s`;
+          tr.classList.add("fade-in-row");
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error("Failed to load report", e);
+      }
+    }
+
+    function formatDT(iso) {
+      if (!iso) return "–";
+      const d = new Date(iso);
+      return d.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) +
+        " " + d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    loadReport();
+  </script>
+</body>
+</html>

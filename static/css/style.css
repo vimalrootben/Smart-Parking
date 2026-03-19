@@ -1,0 +1,677 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Smart Parking Analytics System – style.css
+   Light theme · 2D parking lot · Animated car SVGs
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Tokens ───────────────────────────────────────────────────────── */
+:root {
+  --bg:              #e8ecf2;
+  --bg-panel:        #ffffff;
+  --bg-lot:          #6b7280;
+  --bg-aisle:        #55606e;
+  --border:          #d1d5db;
+  --blue:            #1a56db;
+  --blue-light:      #3b82f6;
+  --blue-pale:       #dbeafe;
+  --red:             #dc2626;
+  --red-light:       #fca5a5;
+  --green:           #16a34a;
+  --green-light:     #bbf7d0;
+  --green-dark:      #15803d;
+  --orange:          #ea580c;
+  --orange-light:    #fdba74;
+  --text:            #1f2937;
+  --text-muted:      #6b7280;
+  --white:           #ffffff;
+  --shadow-sm:       0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:       0 4px 14px rgba(0,0,0,.1);
+  --shadow-lg:       0 8px 30px rgba(0,0,0,.12);
+  --radius:          10px;
+  --radius-sm:       6px;
+  --transition:      .3s cubic-bezier(.4,0,.2,1);
+  --font:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Reset ────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top Banner ───────────────────────────────────────────────────── */
+.top-banner {
+  background: linear-gradient(135deg, var(--blue) 0%, #2563eb 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  z-index: 10;
+}
+.top-banner h1 {
+  font-size: 1.65rem; font-weight: 800; letter-spacing: -.02em;
+  text-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+.banner-nav { display: flex; gap: .8rem; justify-content: center; margin-top: .5rem; }
+.banner-link {
+  color: rgba(255,255,255,.75); text-decoration: none;
+  font-size: .85rem; font-weight: 600;
+  padding: .25rem .75rem; border-radius: 6px;
+  transition: var(--transition);
+}
+.banner-link:hover, .banner-link.active {
+  color: #fff; background: rgba(255,255,255,.18);
+}
+
+/* ── Main 2-Column Grid ──────────────────────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 1380px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+/* ── Panel (shared) ───────────────────────────────────────────────── */
+.panel {
+  background: var(--bg-panel);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* ── LEFT: Parking Panel ──────────────────────────────────────────── */
+.panel-parking { padding: 1.2rem; }
+
+.panel-title {
+  display: flex; align-items: center; gap: .8rem;
+  font-size: 1.15rem; font-weight: 700; color: var(--text);
+  margin-bottom: 1rem; justify-content: center;
+}
+.title-line { flex: 0 0 40px; height: 2px; background: var(--text-muted); border-radius: 1px; }
+
+/* Floor tabs */
+.floor-tabs { display: flex; gap: .5rem; margin-bottom: .8rem; justify-content: center; }
+.floor-tab {
+  padding: .35rem 1.1rem; border: 2px solid var(--blue);
+  border-radius: 6px; background: transparent;
+  color: var(--blue); font-family: var(--font);
+  font-size: .82rem; font-weight: 700; cursor: pointer;
+  transition: var(--transition);
+}
+.floor-tab:hover { background: var(--blue-pale); }
+.floor-tab.active { background: var(--blue); color: #fff; }
+
+/* ── Parking Lot (asphalt) ────────────────────────────────────────── */
+.parking-lot {
+  background: var(--bg-lot);
+  border-radius: var(--radius);
+  padding: .8rem;
+  display: flex; flex-direction: column; gap: 0;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.25);
+}
+
+.lot-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.lot-aisle {
+  height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.3); font-size: 1.1rem;
+  position: relative;
+}
+.lot-aisle::before {
+  content: '';
+  position: absolute; left: 10%; right: 10%; top: 50%;
+  height: 2px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.2) 0 12px, transparent 12px 24px);
+}
+.aisle-arrow { position: relative; z-index: 1; }
+
+/* ── Individual Slot ──────────────────────────────────────────────── */
+.slot {
+  position: relative;
+  background: rgba(0,0,0,.15);
+  border: 2px solid rgba(255,255,255,.2);
+  border-radius: var(--radius-sm);
+  aspect-ratio: 1.3;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 4px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.slot-label {
+  font-size: .62rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .05em;
+  z-index: 2; position: relative;
+}
+
+/* Free slot */
+.slot.free {
+  background: var(--green);
+  border-color: var(--green-dark);
+  box-shadow: inset 0 -2px 6px rgba(0,0,0,.15);
+}
+.slot.free .slot-label { color: #fff; }
+
+/* Occupied slot */
+.slot.occupied {
+  background: #4b5563;
+  border-color: rgba(255,255,255,.15);
+}
+.slot.occupied .slot-label { color: var(--red-light); }
+
+/* ── Car SVG inside slot ──────────────────────────────────────────── */
+.car-svg {
+  position: absolute;
+  top: 4px; left: 50%;
+  transform: translateX(-50%);
+  width: 60%; height: auto;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.35));
+}
+
+/* ── Car Animations ───────────────────────────────────────────────── */
+@keyframes carDriveIn {
+  0%   { transform: translateX(-50%) translateY(-120%) scale(.7); opacity: 0; }
+  50%  { opacity: 1; }
+  100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+}
+@keyframes carDriveOut {
+  0%   { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+  50%  { opacity: .7; }
+  100% { transform: translateX(-50%) translateY(120%) scale(.7); opacity: 0; }
+}
+
+.slot.drive-in .car-svg  { animation: carDriveIn .6s ease-out forwards; }
+.slot.drive-out .car-svg { animation: carDriveOut .5s ease-in forwards; }
+
+/* Slot pulse highlight */
+@keyframes slotFlash {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,.4); }
+  50%      { box-shadow: 0 0 0 8px rgba(59,130,246,0); }
+}
+.slot.flash { animation: slotFlash .7s ease; }
+
+/* ── Control Buttons ──────────────────────────────────────────────── */
+.control-row {
+  display: flex; gap: .8rem; margin-top: 1rem; justify-content: center;
+  position: relative;
+}
+
+.ctrl-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .6rem 1.6rem;
+  font-family: var(--font); font-size: .9rem; font-weight: 700;
+  border: none; border-radius: 8px; cursor: pointer;
+  transition: var(--transition);
+  outline: none; color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.ctrl-icon { width: 18px; height: 18px; }
+
+.ctrl-enter {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+}
+.ctrl-enter:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,219,.35); }
+.ctrl-enter:active { transform: translateY(0); }
+
+.ctrl-exit {
+  background: linear-gradient(135deg, var(--orange) 0%, #f97316 100%);
+}
+.ctrl-exit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(234,88,12,.35); }
+.ctrl-exit:active { transform: translateY(0); }
+
+/* ── Toast ─────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px);
+  padding: .6rem 1.4rem; border-radius: 10px;
+  font-size: .85rem; font-weight: 600;
+  background: var(--white); border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  opacity: 0; transition: all .35s ease; z-index: 200; pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: var(--green); color: var(--green); }
+.toast.error   { border-color: var(--red); color: var(--red); }
+
+/* ── RIGHT: Analytics Panel ───────────────────────────────────────── */
+.panel-analytics { display: flex; flex-direction: column; }
+
+.analytics-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+  color: #fff; padding: .85rem 1.2rem;
+  border-bottom: 3px solid var(--blue-light);
+}
+.analytics-header h2 { font-size: 1rem; font-weight: 800; letter-spacing: .04em; }
+
+/* ── Metric Pills ─────────────────────────────────────────────────── */
+.metric-pills {
+  display: flex; gap: .5rem; padding: .8rem 1rem;
+  flex-wrap: wrap;
+}
+.pill {
+  display: flex; align-items: center; gap: .4rem;
+  padding: .4rem .9rem; border-radius: 6px;
+  font-size: .82rem; font-weight: 700;
+  color: #fff; flex: 1; min-width: 120px;
+  justify-content: center;
+  transition: transform .2s ease;
+}
+.pill:hover { transform: scale(1.04); }
+.pill-blue  { background: var(--blue); }
+.pill-red   { background: var(--red); }
+.pill-green { background: var(--green); }
+.pill-label { font-weight: 600; opacity: .9; }
+.pill-value { font-weight: 900; }
+.pill-value-big { font-size: 1.3rem; }
+
+/* ── Info Cards Row ───────────────────────────────────────────────── */
+.cards-row {
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: .7rem; padding: 0 1rem .6rem;
+}
+
+.info-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .8rem;
+  background: #f9fafb;
+  transition: var(--transition);
+}
+.info-card:hover { box-shadow: var(--shadow-md); }
+
+.card-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+  color: #fff; font-size: .65rem; font-weight: 800;
+  padding: .2rem .6rem; border-radius: 4px;
+  margin-bottom: .6rem; letter-spacing: .05em;
+}
+
+.pred-item {
+  display: flex; align-items: flex-start; gap: .4rem;
+  margin-bottom: .35rem; font-size: .8rem; line-height: 1.4;
+}
+.pred-icon { font-size: 1rem; flex-shrink: 0; }
+
+.availability-card {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; gap: .5rem;
+}
+.avail-icon-row { display: flex; align-items: center; gap: .5rem; }
+.avail-truck { width: 56px; height: 28px; }
+.avail-text { font-size: .8rem; color: var(--text-muted); }
+.avail-count {
+  display: block; font-size: 2rem; font-weight: 900;
+  color: var(--blue); line-height: 1;
+  transition: var(--transition);
+}
+
+/* count-up animation */
+@keyframes countPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.2); color: var(--green); }
+  100% { transform: scale(1); }
+}
+.count-pop { animation: countPop .4s ease; }
+
+/* ── Charts Section ───────────────────────────────────────────────── */
+.charts-section { padding: .6rem 1rem 1rem; flex: 1; }
+.charts-heading {
+  text-align: center; font-size: .85rem; font-weight: 800;
+  letter-spacing: .06em; color: var(--text);
+  margin-bottom: .6rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: .4rem;
+}
+.charts-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .7rem;
+}
+.chart-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .6rem;
+  background: #fff;
+}
+.chart-label {
+  font-size: .72rem; font-weight: 700;
+  color: var(--text-muted); margin-bottom: .4rem;
+  text-align: center;
+}
+
+/* ── Report Page (reuse) ──────────────────────────────────────────── */
+.report-section { padding: 1.2rem; }
+.table-wrapper {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-x: auto;
+}
+.report-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.report-table th {
+  text-align: left; padding: .5rem .8rem;
+  color: var(--text-muted); font-weight: 700;
+  text-transform: uppercase; font-size: .7rem; letter-spacing: .05em;
+  border-bottom: 2px solid var(--border); background: #f9fafb;
+}
+.report-table td {
+  padding: .5rem .8rem; border-bottom: 1px solid #f0f0f0;
+}
+.report-table tr:hover td { background: var(--blue-pale); }
+
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: 4px; font-size: .7rem; font-weight: 700; }
+.badge-active { background: #dcfce7; color: var(--green); }
+
+@keyframes fadeInRow {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-row { animation: fadeInRow .3s ease forwards; opacity: 0; }
+
+/* Metric cards used on report page */
+.metrics-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: .8rem; margin-bottom: 1.2rem;
+}
+.metrics-row--compact { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.metric-card {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1.2rem; background: var(--bg-panel);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  transition: var(--transition);
+}
+.metric-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.metric-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+.metric-value { font-size: 1.8rem; font-weight: 900; margin: .2rem 0; color: var(--blue); }
+.metric-sub { font-size: .72rem; color: var(--text-muted); }
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.site-footer {
+  text-align: center; padding: 1.5rem 1rem;
+  color: var(--text-muted); font-size: .78rem;
+  border-top: 1px solid var(--border);
+}
+.accent { color: var(--blue); font-weight: 800; }
+
+/* hero reuse for report page */
+.hero { text-align: center; padding: 2.5rem 1rem 1.5rem; }
+.hero h1 { font-size: 1.8rem; font-weight: 800; color: var(--text); }
+.hero-sub { color: var(--text-muted); margin-top: .3rem; font-size: .95rem; }
+.hero--small { padding: 2rem 1rem 1rem; }
+.hero--small h1 { font-size: 1.5rem; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem 2rem; }
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .main-grid, .admin-grid { grid-template-columns: 1fr; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .cards-row { grid-template-columns: 1fr; }
+  .slot-row { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)) !important; }
+}
+@media (max-width: 550px) {
+  .lot-row { grid-template-columns: repeat(5, 1fr); }
+  .metric-pills { flex-direction: column; }
+  .top-banner h1 { font-size: 1.1rem; }
+  .floor-stats-bar { flex-direction: column; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   NEW: User & Admin specific layouts
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Admin banner variant */
+.top-banner--admin {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+}
+
+/* ── User Container (centered parking only) ───────────────────────── */
+.user-container {
+  max-width: 820px;
+  margin: 1.2rem auto;
+  padding: 0 1rem 2rem;
+}
+
+/* ── Admin 2-Column Grid ──────────────────────────────────────────── */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 1rem;
+  max-width: 1420px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+/* ── Floor Stats Bar ──────────────────────────────────────────────── */
+.floor-stats-bar {
+  display: flex; gap: .6rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.floor-stats-bar--compact { margin-bottom: .6rem; }
+.floor-stats-bar--compact .fs-pill { padding: .3rem .7rem; }
+
+.fs-pill {
+  display: flex; align-items: center; gap: .45rem;
+  padding: .5rem 1rem;
+  border-radius: 8px;
+  font-size: .85rem; font-weight: 700;
+  color: #fff;
+  transition: transform .2s ease;
+  box-shadow: var(--shadow-sm);
+}
+.fs-pill:hover { transform: scale(1.05); }
+
+.fs-total    { background: var(--blue); }
+.fs-occupied { background: var(--red); }
+.fs-available { background: var(--green); }
+
+.fs-icon  { font-size: 1.1rem; }
+.fs-label { opacity: .9; font-weight: 600; }
+.fs-value { font-weight: 900; font-size: 1.15rem; min-width: 24px; text-align: center; }
+
+.floor-tabs--centered { justify-content: center; margin-bottom: 1rem; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Realistic Parking Lot v2 – top row + driveway + bottom row
+   ══════════════════════════════════════════════════════════════════════ */
+.parking-lot-v2 {
+  background: #4b5563;
+  border-radius: var(--radius);
+  padding: .6rem;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,.3);
+  overflow: hidden;
+}
+
+/* Slot rows (top and bottom, horizontal) */
+.slot-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 5px;
+}
+
+/* ── Driveway (central aisle) ─────────────────────────────────────── */
+.driveway {
+  position: relative;
+  height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 4px 0;
+  border-top: 3px dashed rgba(255,255,255,.18);
+  border-bottom: 3px dashed rgba(255,255,255,.18);
+}
+.driveway-line {
+  position: absolute; left: 5%; right: 5%; top: 50%;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,0,.35) 0 16px, transparent 16px 32px);
+}
+.driveway-label {
+  position: relative; z-index: 1;
+  font-size: .65rem; font-weight: 800;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.driveway-arrows {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  display: flex; gap: 4px;
+  color: rgba(255,255,255,.2); font-size: .9rem;
+}
+
+/* ── Slot v2 (realistic) ─────────────────────────────────────────── */
+.slot-v2 {
+  position: relative;
+  background: rgba(0,0,0,.12);
+  border-radius: 4px;
+  aspect-ratio: 1.1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  padding-bottom: 3px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+/* Top row slots: border on bottom (parking line) */
+.slot-v2.top {
+  border-left: 2px solid rgba(255,255,255,.2);
+  border-right: 2px solid rgba(255,255,255,.2);
+  border-top: 2px solid rgba(255,255,255,.2);
+  border-bottom: 3px solid rgba(255,255,255,.35);
+  border-radius: 4px 4px 0 0;
+}
+
+/* Bottom row slots: border on top (parking line) */
+.slot-v2.bottom {
+  border-left: 2px solid rgba(255,255,255,.2);
+  border-right: 2px solid rgba(255,255,255,.2);
+  border-bottom: 2px solid rgba(255,255,255,.2);
+  border-top: 3px solid rgba(255,255,255,.35);
+  border-radius: 0 0 4px 4px;
+}
+
+/* Free */
+.slot-v2.free {
+  background: var(--green);
+  border-color: var(--green-dark);
+}
+.slot-v2.free .slot-label { color: #fff; }
+.slot-v2.free .slot-id-num { color: rgba(255,255,255,.85); }
+
+/* Occupied */
+.slot-v2.occupied {
+  background: #374151;
+}
+.slot-v2.occupied .slot-label { color: var(--red-light); }
+
+/* Click-to-book hover */
+.slot-v2.clickable { cursor: pointer; }
+.slot-v2.clickable:hover {
+  background: #22c55e;
+  transform: scale(1.06);
+  box-shadow: 0 0 12px rgba(34,197,94,.4);
+  z-index: 5;
+}
+
+.slot-id-num {
+  font-size: .9rem; font-weight: 900;
+  z-index: 2; position: relative;
+  line-height: 1;
+}
+
+/* Car SVG positioning in v2 slots */
+.slot-v2 .car-svg {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 55%; height: auto;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.4));
+}
+
+/* ── v2 slot animations ───────────────────────────────────────────── */
+@keyframes carDriveInTop {
+  0%   { transform: translate(-50%, -50%) translateY(-100%) scale(.65); opacity: 0; }
+  100% { transform: translate(-50%, -50%) translateY(0) scale(1); opacity: 1; }
+}
+@keyframes carDriveInBottom {
+  0%   { transform: translate(-50%, -50%) translateY(100%) scale(.65); opacity: 0; }
+  100% { transform: translate(-50%, -50%) translateY(0) scale(1); opacity: 1; }
+}
+@keyframes carDriveOutTop {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translateY(-100%) scale(.65); opacity: 0; }
+}
+@keyframes carDriveOutBottom {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translateY(100%) scale(.65); opacity: 0; }
+}
+
+.slot-v2.top.drive-in .car-svg    { animation: carDriveInTop .6s ease-out forwards; }
+.slot-v2.bottom.drive-in .car-svg { animation: carDriveInBottom .6s ease-out forwards; }
+.slot-v2.top.drive-out .car-svg    { animation: carDriveOutTop .5s ease-in forwards; }
+.slot-v2.bottom.drive-out .car-svg { animation: carDriveOutBottom .5s ease-in forwards; }
+
+.slot-v2.flash { animation: slotFlash .7s ease; }
+
+/* ── Book Hint Text ───────────────────────────────────────────────── */
+.book-hint {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   Action Log (Admin Page)
+   ══════════════════════════════════════════════════════════════════════ */
+.action-log { padding: .6rem 1rem 1rem; }
+
+.log-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #f9fafb;
+}
+
+.log-entry {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .4rem .7rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: .78rem;
+  transition: background .15s;
+}
+.log-entry:hover { background: var(--blue-pale); }
+.log-entry:last-child { border-bottom: none; }
+
+.log-icon { font-size: 1rem; flex-shrink: 0; }
+.log-text { flex: 1; color: var(--text); }
+.log-time { color: var(--text-muted); font-size: .72rem; white-space: nowrap; }
+
+.log-badge {
+  display: inline-block; padding: .1rem .45rem;
+  border-radius: 4px; font-size: .62rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.log-badge--active { background: #dcfce7; color: var(--green); }
+.log-badge--done   { background: #e0e7ff; color: var(--blue); }
+
+/* Scrollbar styling for log */
+.log-list::-webkit-scrollbar { width: 5px; }
+.log-list::-webkit-scrollbar-track { background: transparent; }
+.log-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }

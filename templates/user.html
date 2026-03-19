@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Parking — Book a Slot</title>
+  <meta name="description" content="Book a parking slot in real-time from the virtual parking layout." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+  <!-- ═══ Top Banner ═══ -->
+  <header class="top-banner" id="top-banner">
+    <h1>🅿 Smart Parking — User</h1>
+    <nav class="banner-nav">
+      <a href="/user" class="banner-link active" id="nav-user">User</a>
+      <a href="/admin" class="banner-link" id="nav-admin">Admin</a>
+      <a href="/report" class="banner-link" id="nav-report">Reports</a>
+    </nav>
+  </header>
+
+  <main class="user-container" id="main-content">
+
+    <!-- ═══ Floor-Specific Stat Pills ═══ -->
+    <section class="floor-stats-bar" id="floor-stats-bar">
+      <div class="fs-pill fs-total" id="fs-total">
+        <span class="fs-icon">📋</span>
+        <span class="fs-label">Total Slots</span>
+        <span class="fs-value" id="fs-total-val">25</span>
+      </div>
+      <div class="fs-pill fs-occupied" id="fs-occupied">
+        <span class="fs-icon">🚗</span>
+        <span class="fs-label">Occupied</span>
+        <span class="fs-value" id="fs-occupied-val">0</span>
+      </div>
+      <div class="fs-pill fs-available" id="fs-available">
+        <span class="fs-icon">✅</span>
+        <span class="fs-label">Available</span>
+        <span class="fs-value" id="fs-available-val">25</span>
+      </div>
+    </section>
+
+    <!-- ═══ Floor Tabs ═══ -->
+    <div class="floor-tabs floor-tabs--centered" id="floor-tabs">
+      <button class="floor-tab active" data-floor="1" id="tab-floor-1" onclick="switchFloor(1)">Floor 1</button>
+      <button class="floor-tab" data-floor="2" id="tab-floor-2" onclick="switchFloor(2)">Floor 2</button>
+    </div>
+
+    <!-- ═══ Realistic Parking Lot ═══ -->
+    <section class="parking-lot-v2" id="parking-lot">
+
+      <!-- Top row: slots facing down -->
+      <div class="slot-row slot-row--top" id="slot-row-top"></div>
+
+      <!-- Central driveway / aisle -->
+      <div class="driveway" id="driveway">
+        <div class="driveway-line"></div>
+        <span class="driveway-label">DRIVEWAY</span>
+        <div class="driveway-arrows">
+          <span>⟶</span><span>⟶</span><span>⟶</span>
+        </div>
+      </div>
+
+      <!-- Bottom row: slots facing up -->
+      <div class="slot-row slot-row--bottom" id="slot-row-bottom"></div>
+    </section>
+
+    <p class="book-hint">💡 Click any <strong>FREE</strong> slot to book it</p>
+
+    <!-- Toast -->
+    <div class="toast" id="status-toast"></div>
+  </main>
+
+  <footer class="site-footer" id="footer">
+    <p>SmartPark<span class="accent">AI</span> &copy; 2026</p>
+  </footer>
+
+  <script src="/static/js/user.js"></script>
+</body>
+</html>
