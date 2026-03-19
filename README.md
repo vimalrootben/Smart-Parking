@@ -70,5 +70,3 @@ A real-time 2D Smart Parking Management and Analytics System built with Flask, S
 - `templates/`: HTML structures for User, Admin, and Report pages.
 
 ---
-
-*Made with ❤️ by Vimal*
